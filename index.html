@@ -87,6 +87,14 @@
             margin: 20px;
             font-size: 1em;
         }
+        .sentence-number {
+            color: red;
+            font-weight: bold;
+        }
+        .error-label {
+            color: red;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -97,7 +105,7 @@
     <p>Welcome to CBC DIGITAL! Enjoy unlimited access to CBC Digital Lessons, and make Unlimited Income by sharing the app!</p>
 
     <h2>Typing Exercise</h2>
-    <p id="instruction">Sentence <span id="sentenceNumber">1</span> to type:</p>
+    <p id="instruction">Sentence <span id="sentenceNumber" class="sentence-number">1</span> to type:</p>
     <p id="sentence" class="sentence">The cat sat on the mat.</p>
 
     <p>Type the sentence here:</p>
@@ -161,7 +169,7 @@
                         errorHighlighted += original[i];
                     }
                 }
-                feedback.innerHTML = `Errors: ${errorHighlighted}`;
+                feedback.innerHTML = `<span class="error-label">Errors:</span> ${errorHighlighted}`;
             }
         }
 
@@ -177,7 +185,7 @@
             document.querySelector('button[onclick="checkSentence()"]').style.display = "inline";
             document.querySelector('button[onclick="tryAgain()"]').style.display = "inline";
             document.getElementById('restartButton').style.display = "none";
-            document.getElementById('instruction').innerHTML = "Sentence <span id='sentenceNumber'>1</span> to type:";
+            document.getElementById('instruction').innerHTML = 'Sentence <span id="sentenceNumber" class="sentence-number">1</span> to type:';
             updateSentence();
         }
 
