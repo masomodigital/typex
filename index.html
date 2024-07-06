@@ -36,6 +36,48 @@
             display: block;
             margin: 0 auto; /* Adjusted margin for the canvas */
         }
+
+        h2 {
+            color: blue;
+            font-weight: bold;
+        }
+        .sentence {
+            color: red;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .congrats {
+            color: green;
+            font-weight: bold;
+        }
+        .button-check {
+            background-color: blue;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        .button-try-again {
+            background-color: black;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        .button-restart {
+            background-color: red;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        .final-congrats {
+            color: green;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -44,5 +86,91 @@
         <img src="https://i.imgur.com/mwpTHJj.png" alt="Your Icon" width="100" height="100">
     </a>
     <p>Welcome to CBC DIGITAL! Enjoy unlimited access to CBC Digital Lessons, and make Unlimited Income by sharing the app!</p>
+
+    <h2>Typing Exercise</h2>
+    <p id="instruction">Sentence <span id="sentenceNumber">1</span> to type:</p>
+    <p id="sentence" class="sentence">The cat sat on the mat.</p>
+
+    <p>Type the sentence here:</p>
+    <input type="text" id="typedSentence" />
+    <button class="button-check" onclick="checkSentence()">Check</button>
+    <button class="button-try-again" onclick="tryAgain()">Try Again</button>
+
+    <p id="feedback"></p>
+    <button id="restartButton" class="button-restart" onclick="restartExercise()" style="display: none;">Restart Exercise</button>
+
+    <script>
+        const sentences = [
+            "The cat sat on the mat.",
+            "The sun is shining brightly.",
+            "The bird is singing a song.",
+            "The dog is barking loudly.",
+            "Please, pass the salt.",
+            "Is it raining?",
+            "Look at the rainbow!",
+            "My e-mail is john.doe@example.com.",
+            "It's a well-known fact.",
+            "Wow! That's amazing."
+        ];
+
+        let currentSentenceIndex = 0;
+
+        function updateSentence() {
+            if (currentSentenceIndex < sentences.length) {
+                document.getElementById('sentence').innerHTML = sentences[currentSentenceIndex];
+                document.getElementById('sentenceNumber').innerHTML = currentSentenceIndex + 1;
+                document.getElementById('typedSentence').value = "";
+                document.getElementById('feedback').innerHTML = "";
+            } else {
+                document.getElementById('instruction').innerHTML = "<span class='final-congrats'>Well done! You have completed all the sentences.</span>";
+                document.getElementById('sentence').style.display = "none";
+                document.getElementById('typedSentence').style.display = "none";
+                document.getElementById('feedback').style.display = "none";
+                document.querySelector('button[onclick="checkSentence()"]').style.display = "none";
+                document.querySelector('button[onclick="tryAgain()"]').style.display = "none";
+                document.getElementById('restartButton').style.display = "inline";
+            }
+        }
+
+        function checkSentence() {
+            const original = sentences[currentSentenceIndex];
+            const typed = document.getElementById('typedSentence').value;
+            const feedback = document.getElementById('feedback');
+
+            if (typed === original) {
+                feedback.innerHTML = "<span class='congrats'>Congratulations! You typed it correctly.</span>";
+                currentSentenceIndex++;
+                setTimeout(updateSentence, 2000);  // Move to the next sentence after a short delay
+            } else {
+                let errorHighlighted = "";
+                for (let i = 0; i < original.length; i++) {
+                    if (typed[i] !== original[i]) {
+                        errorHighlighted += `<span class="error">${typed[i] || ''}</span>`;
+                    } else {
+                        errorHighlighted += original[i];
+                    }
+                }
+                feedback.innerHTML = `Errors: ${errorHighlighted}`;
+            }
+        }
+
+        function tryAgain() {
+            document.getElementById('typedSentence').value = "";
+            document.getElementById('feedback').innerHTML = "";
+        }
+
+        function restartExercise() {
+            currentSentenceIndex = 0;
+            document.getElementById('sentence').style.display = "block";
+            document.getElementById('typedSentence').style.display = "block";
+            document.querySelector('button[onclick="checkSentence()"]').style.display = "inline";
+            document.querySelector('button[onclick="tryAgain()"]').style.display = "inline";
+            document.getElementById('restartButton').style.display = "none";
+            document.getElementById('instruction').innerHTML = "Sentence <span id='sentenceNumber'>1</span> to type:";
+            updateSentence();
+        }
+
+        updateSentence();  // Initialize with the first sentence
+    </script>
 </body>
 </html>
