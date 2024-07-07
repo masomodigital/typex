@@ -86,6 +86,8 @@
             cursor: pointer;
             margin: 20px;
             font-size: 1em;
+            font-weight: bold; /* Make the text bold */
+            animation: blink 1s infinite; /* Add blink animation */
         }
         .sentence-number {
             color: red;
@@ -94,6 +96,12 @@
         .error-label {
             color: red;
             font-weight: bold;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
         }
     </style>
 </head>
